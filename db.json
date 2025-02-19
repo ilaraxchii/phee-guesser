@@ -1,0 +1,320 @@
+{
+  "players": [
+    {
+      "id": 1,
+      "name": "Napheesa Collier",
+      "team": "MIN",
+      "position": "F",
+      "number": "24",
+      "age": 28,
+      "height": "6'1\"",
+      "conf": "West"
+    },
+    {
+      "id": 2,
+      "name": "Brittney Griner",
+      "team": "ATL",
+      "position": "Center",
+      "number": "42",
+      "age": 33,
+      "height": "6'9\"",
+      "conf": "East"
+    },
+    {
+      "id": 3,
+      "name": "A'ja Wilson",
+      "team": "LVA",
+      "position": "F",
+      "number": "22",
+      "age": 27,
+      "height": "6'4\"",
+      "conf": "West"
+    },
+    {
+      "id": 4,
+      "name": "DiJonai Carrington",
+      "team": "DAL",
+      "position": "G",
+      "number": "21",
+      "age": 24,
+      "height": "6'0\"",
+      "conf": "West"
+    },
+    {
+      "id": 5,
+      "name": "Rickea Jackson",
+      "team": "LAS",
+      "position": "F",
+      "number": "2",
+      "age": 23,
+      "height": "6'2\"",
+      "conf": "West"
+    },
+    {
+      "id": 6,
+      "name": "Nika Muhl",
+      "team": "SEA",
+      "position": "G",
+      "number": "1",
+      "age": 22,
+      "height": "5'9\"",
+      "conf": "West"
+    },
+    {
+      "id": 7,
+      "name": "Sabrina Ionescu",
+      "team": "NYL",
+      "position": "G",
+      "number": "20",
+      "age": 25,
+      "height": "6'0\"",
+      "conf": "East"
+    },
+    {
+      "id": 8,
+      "name": "Angel Reese",
+      "team": "CHI",
+      "position": "F",
+      "number": "5",
+      "age": 21,
+      "height": "6'3\"",
+      "conf": "East"
+    },
+    {
+      "id": 9,
+      "name": "Chelsea Gray",
+      "team": "LVA",
+      "position": "G",
+      "number": "12",
+      "age": 32,
+      "height": "5'11\"",
+      "conf": "West"
+    },
+    {
+      "id": 10,
+      "name": "Skylar Diggins-Smith",
+      "team": "SEA",
+      "position": "G",
+      "number": "4",
+      "age": 33,
+      "height": "5'9\"",
+      "conf": "West"
+    },
+    {
+      "id": 11,
+      "name": "Alyssa Thomas",
+      "team": "PHX",
+      "position": "F",
+      "number": "25",
+      "age": 31,
+      "height": "6'2\"",
+      "conf": "West"
+    },
+    {
+      "id": 12,
+      "name": "Breanna Stewart",
+      "team": "NYL",
+      "position": "G",
+      "number": "30",
+      "age": 29,
+      "height": "6'4\"",
+      "conf": "East"
+    },
+    {
+      "id": 13,
+      "name": "Jonquel Jones",
+      "team": "NYL",
+      "position": "C",
+      "number": "35",
+      "age": 29,
+      "height": "6'6\"",
+      "conf": "East"
+    },
+    {
+      "id": 14,
+      "name": "Natasha Howard",
+      "team": "IND",
+      "position": "F",
+      "number": "6",
+      "age": 32,
+      "height": "6'2\"",
+      "conf": "East"
+    },
+    {
+      "id": 15,
+      "name": "Elena Delle Donne",
+      "team": "WAS",
+      "position": "F",
+      "number": "11",
+      "age": 34,
+      "height": "6'5\"",
+      "conf": "East"
+    },
+    {
+      "id": 16,
+      "name": "Elizabeth Kitley",
+      "team": "LVA",
+      "position": "C",
+      "number": "33",
+      "age": 23,
+      "height": "6'5\"",
+      "conf": "West"
+    },
+    {
+      "id": 17,
+      "name": "Jewell Loyd",
+      "team": "LVA",
+      "position": "G",
+      "number": "24",
+      "age": 29,
+      "height": "5'10\"",
+      "conf": "West"
+    },
+    {
+      "id": 18,
+      "name": "Arike Ogunbowale",
+      "team": "DAL",
+      "position": "G",
+      "number": "24",
+      "age": 26,
+      "height": "5'8\"",
+      "conf": "West"
+    },
+    {
+      "id": 19,
+      "name": "Courtney Vandersloot",
+      "team": "CHI",
+      "position": "G",
+      "number": "22",
+      "age": 34,
+      "height": "5'8\"",
+      "conf": "East"
+    },
+    {
+      "id": 20,
+      "name": "Alanna Smith",
+      "team": "MIN",
+      "position": "Forward",
+      "number": "13",
+      "age": 27,
+      "height": "6'4\"",
+      "conf": "West"
+    },
+    {
+      "id": 21,
+      "name": "Caitlin Clark",
+      "team": "IND",
+      "position": "G",
+      "number": "22",
+      "age": 23,
+      "height": "6'0\"",
+      "conf": "East"
+    },
+    {
+      "id": 22,
+      "name": "Kelsey Plum",
+      "team": "LAS",
+      "position": "G",
+      "number": "10",
+      "age": 30,
+      "height": "5'8\"",
+      "conf": "West"
+    },
+    {
+      "id": 23,
+      "name": "Cameron Brink",
+      "team": "LAS",
+      "position": "F",
+      "number": "22",
+      "age": 23,
+      "height": "6'4\"",
+      "conf": "West"
+    },
+    {
+      "id": 24,
+      "name": "Rae Burrell",
+      "team": "LAS",
+      "position": "G-F",
+      "number": "12",
+      "age": 24,
+      "height": "6'2\"",
+      "conf": "West"
+    },
+    {
+      "id": 25,
+      "name": "Crystal Dangerfield",
+      "team": "LAS",
+      "position": "G",
+      "number": "14",
+      "age": 26,
+      "height": "5'5\"",
+      "conf": "West"
+    },
+    {
+      "id": 26,
+      "name": "Dearica Hamby",
+      "team": "LAS",
+      "position": "F",
+      "number": "5",
+      "age": 31,
+      "height": "6'3\"",
+      "conf": "West"
+    },
+    {
+      "id": 27,
+      "name": "Azura Stevens",
+      "team": "LAS",
+      "position": "F-C",
+      "number": "23",
+      "age": 29,
+      "height": "6'6\"",
+      "conf": "West"
+    },
+    {
+      "id": 28,
+      "name": "Odyssey Sims",
+      "team": "LAS",
+      "position": "G",
+      "number": "6",
+      "age": 32,
+      "height": "5'8\"",
+      "conf": "West"
+    },
+    {
+      "id": 29,
+      "name": "Aari McDonald",
+      "team": "LAS",
+      "position": "G",
+      "number": "15",
+      "age": 26,
+      "height": "5'6\"",
+      "conf": "West"
+    },
+    {
+      "id": 30,
+      "name": "Emma Cannon",
+      "team": "LAS",
+      "position": "F",
+      "number": "32",
+      "age": 35,
+      "height": "6'2\"",
+      "conf": "West"
+    },
+    {
+      "id": 31,
+      "name": "Mercedes Russell",
+      "team": "LAS",
+      "position": "C",
+      "number": "21",
+      "age": 29,
+      "height": "6'6\"",
+      "conf": "West"
+    }
+  ]
+}
+
+
+
+
+
+
