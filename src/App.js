@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { supabase } from './supabase'; // <-- Using your supabase.js file
+import axios from 'axios';
 import './App.css';
 
 function App() {
@@ -14,25 +14,13 @@ function App() {
   const [gameOver, setGameOver] = useState(false); // Track game over state
   const intervalRef = useRef(null);
 
-  // Fetch players from Supabase instead of axios/local
   useEffect(() => {
-    async function fetchPlayers() {
-      const { data, error } = await supabase
-        .from('players') // Table name in Supabase
-        .select('*');
-
-      if (error) {
-        console.error('Error fetching player data:', error);
-        return;
-      }
-
-      // Store all players in state
-      setPlayers(data);
-      // Pick a random player from the fetched data
-      pickRandomPlayer(data);
-    }
-
-    fetchPlayers();
+    supabase.from('players').select('*')
+      .then(response => {
+        setPlayers(response.data);
+        pickRandomPlayer(response.data);
+      })
+      .catch(error => console.error('Error fetching player data:', error));
   }, []);
 
   const pickRandomPlayer = (playersList) => {
@@ -42,19 +30,17 @@ function App() {
       setGuessesLeft(8);
       setMessage('');
       setPreviousGuesses([]);
-      setTimer(0); // Reset timer to 0
+      setTimer(0);  // Reset timer to 0
       setGameOver(false); // Reset game over state when a new player is selected
 
-      startTimer(); // Start the timer immediately after resetting it
+      startTimer();  // Start the timer immediately after resetting it
     }
   };
 
   const capitalizeName = (name) => {
     return name
       .split(' ')
-      .map(
-        (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-      )
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(' ');
   };
 
@@ -63,17 +49,11 @@ function App() {
     if (!selectedPlayer || guessesLeft <= 0) return;
 
     const correctedPlayerName = capitalizeName(playerName);
-    const foundPlayer = players.find(
-      (p) =>
-        p.name.toLowerCase().trim() === correctedPlayerName.toLowerCase().trim()
-    );
+    const foundPlayer = players.find(p => p.name.toLowerCase().trim() === correctedPlayerName.toLowerCase().trim());
 
     if (foundPlayer) {
       const guessFeedback = getGuessFeedback(foundPlayer);
-      setPreviousGuesses([
-        ...previousGuesses,
-        { guess: correctedPlayerName, feedback: guessFeedback },
-      ]);
+      setPreviousGuesses([...previousGuesses, { guess: correctedPlayerName, feedback: guessFeedback }]);
 
       if (foundPlayer.id === selectedPlayer.id) {
         setMessage(`🎉 Correct! The player was ${selectedPlayer.name}!`);
@@ -81,8 +61,8 @@ function App() {
         setShowSilhouette(true); // Show silhouette after correct guess
         setGameOver(true); // End the game when the player is correct
       } else {
-        setGuessesLeft((prev) => (prev > 0 ? prev - 1 : 0));
-        setMessage('❌ Incorrect! Try again.');
+        setGuessesLeft(prev => prev > 0 ? prev - 1 : 0);
+        setMessage("❌ Incorrect! Try again.");
       }
     } else {
       setMessage("❌ Player not found! Make sure you're guessing the correct name.");
@@ -99,73 +79,57 @@ function App() {
 
   const getGuessFeedback = (guessedPlayer) => {
     let feedback = {};
-    feedback.team = `${guessedPlayer.team} ${
-      guessedPlayer.team === selectedPlayer.team ? '✅' : '❌'
-    }`;
-    feedback.position =
-      guessedPlayer.position === selectedPlayer.position ? '✅' : '❌';
-    feedback.confText = `${guessedPlayer.conf} ${
-      guessedPlayer.conf === selectedPlayer.conf ? '✅' : '❌'
-    }`;
-    feedback.conf =
-      guessedPlayer.conf === selectedPlayer.conf ? '✅' : '❌';
+    feedback.team = `${guessedPlayer.team} ${guessedPlayer.team === selectedPlayer.team ? '✅' : '❌'}`;
+    feedback.position = guessedPlayer.position === selectedPlayer.position ? '✅' : '❌';
+    feedback.confText = `${guessedPlayer.conf} ${guessedPlayer.conf === selectedPlayer.conf ? '✅' : '❌'}`;
+    feedback.conf = guessedPlayer.conf === selectedPlayer.conf ? '✅' : '❌';
 
     const parseHeight = (height) => {
-      const [feet, inches] = height.split("'").map((part) => parseInt(part, 10));
-      return feet * 12 + inches;
+      const [feet, inches] = height.split("'").map((part) => parseInt(part.trim(), 10));
+      return (feet * 12) + inches;
     };
 
     const guessedHeightInches = parseHeight(guessedPlayer.height);
     const selectedHeightInches = parseHeight(selectedPlayer.height);
 
     feedback.height = {
-      value:
-        guessedHeightInches === selectedHeightInches
-          ? guessedPlayer.height
-          : `${guessedPlayer.height}`,
-      emoji:
-        guessedHeightInches === selectedHeightInches
-          ? '✅'
-          : guessedHeightInches < selectedHeightInches
-          ? '⬆️'
-          : '⬇️',
+      value: guessedHeightInches === selectedHeightInches ? guessedPlayer.height : `${guessedPlayer.height}`,
+      emoji: guessedHeightInches === selectedHeightInches
+        ? '✅'
+        : guessedHeightInches < selectedHeightInches
+        ? '⬆️'
+        : '⬇️',
     };
 
-    const ageFeedback =
-      guessedPlayer.age === selectedPlayer.age
-        ? `✅ ${guessedPlayer.age}`
-        : guessedPlayer.age < selectedPlayer.age
-        ? `⬆️ ${guessedPlayer.age}`
-        : `⬇️ ${guessedPlayer.age}`;
+    const ageFeedback = guessedPlayer.age === selectedPlayer.age
+      ? `✅ ${guessedPlayer.age}`
+      : guessedPlayer.age < selectedPlayer.age
+      ? `⬆️ ${guessedPlayer.age}`
+      : `⬇️ ${guessedPlayer.age}`;
 
     feedback.age = ageFeedback;
 
     const guessedNumber = parseInt(guessedPlayer.number, 10);
     const selectedNumber = parseInt(selectedPlayer.number, 10);
 
-    const numberFeedback =
-      guessedNumber === selectedNumber
-        ? '✅'
-        : Math.abs(guessedNumber - selectedNumber) === 1
-        ? '🟨'
-        : guessedNumber < selectedNumber
-        ? '⬆️'
-        : '⬇️';
+    const numberFeedback = guessedNumber === selectedNumber
+      ? '✅'
+      : Math.abs(guessedNumber - selectedNumber) === 1
+      ? '🟨'
+      : guessedNumber < selectedNumber
+      ? '⬆️'
+      : '⬇️';
 
     feedback.numberMatch = `${guessedNumber} ${numberFeedback}`;
     feedback.positionText = guessedPlayer.position;
-    feedback.position =
-      guessedPlayer.position === selectedPlayer.position ? '✅' : '❌';
+    feedback.position = guessedPlayer.position === selectedPlayer.position ? '✅' : '❌';
 
     return feedback;
   };
 
   const formatTime = (timeInSeconds) => {
     const hours = String(Math.floor(timeInSeconds / 3600)).padStart(2, '0');
-    const minutes = String(Math.floor((timeInSeconds % 3600) / 60)).padStart(
-      2,
-      '0'
-    );
+    const minutes = String(Math.floor((timeInSeconds % 3600) / 60)).padStart(2, '0');
     const seconds = String(timeInSeconds % 60).padStart(2, '0');
     return `${hours}:${minutes}:${seconds}`;
   };
@@ -173,8 +137,8 @@ function App() {
   const startTimer = () => {
     clearInterval(intervalRef.current); // Clear any existing interval
     intervalRef.current = setInterval(() => {
-      setTimer((prev) => prev + 1);
-    }, 1000); // Start the timer at 0
+      setTimer(prev => prev + 1);
+    }, 1000);  // Start the timer at 0
   };
 
   const handlePlayAgain = () => {
@@ -202,12 +166,10 @@ function App() {
             placeholder="Enter full player name"
             value={playerName}
             onChange={(e) => setPlayerName(e.target.value)}
-            disabled={gameOver || guessesLeft <= 0} // Disable input after game over or guesses run out
-            className={gameOver || guessesLeft <= 0 ? 'disabled-input' : ''}
+            disabled={gameOver || guessesLeft <= 0}  // Disable input after game over or guesses run out
+            className={gameOver || guessesLeft <= 0 ? 'disabled-input' : ''} // Optional: to style the disabled state
           />
-          <button type="submit" disabled={gameOver || guessesLeft <= 0}>
-            Guess
-          </button>
+          <button type="submit" disabled={gameOver || guessesLeft <= 0}>Guess</button>
         </form>
       ) : (
         <div>
@@ -220,9 +182,9 @@ function App() {
 
       {selectedPlayer && (
         <div className="silhouette-container">
-          <button
-            onClick={() => setShowSilhouette((prev) => !prev)}
-            disabled={gameOver || guessesLeft <= 0}
+          <button 
+            onClick={() => setShowSilhouette(prev => !prev)} 
+            disabled={gameOver || guessesLeft <= 0}  // Disable Show Silhouette button if game is over or guesses run out
             className={gameOver || guessesLeft <= 0 ? 'disabled-button' : ''}
           >
             Show Silhouette
@@ -230,25 +192,21 @@ function App() {
 
           {message.includes('Correct!') ? (
             <img
-              src={`/images/${selectedPlayer.name
-                .toLowerCase()
-                .replace(' ', '')}-actual.png`}
+              src={`/images/${selectedPlayer.name.toLowerCase().replace(" ", "")}-actual.png`}
               alt="Player actual"
               className="actual-image"
             />
           ) : (
             showSilhouette && (
               <img
-                src={`/images/${selectedPlayer.name
-                  .toLowerCase()
-                  .replace(' ', '')}-headshot.png`}
+                src={`/images/${selectedPlayer.name.toLowerCase().replace(" ", "")}-headshot.png`}
                 alt="Player silhouette"
                 className="silhouette"
               />
             )
           )}
 
-          {message && guessesLeft > 0 && !message.includes('Correct!') && (
+          {message && guessesLeft > 0 && !message.includes("Correct!") && (
             <p>{message}</p>
           )}
         </div>
@@ -279,18 +237,14 @@ function App() {
                 <div className="info-item">{prevGuess.guess}</div>
                 <div className="info-item">{prevGuess.feedback.team}</div>
                 <div className="info-item">
-                  {prevGuess.feedback.positionText}{' '}
-                  {prevGuess.feedback.position}
+                  {prevGuess.feedback.positionText} {prevGuess.feedback.position}
                 </div>
                 <div className="info-item">{prevGuess.feedback.confText}</div>
                 <div className="info-item">
-                  {prevGuess.feedback.height.value}{' '}
-                  {prevGuess.feedback.height.emoji}
+                  {prevGuess.feedback.height.value} {prevGuess.feedback.height.emoji}
                 </div>
                 <div className="info-item">{prevGuess.feedback.age}</div>
-                <div className="info-item">
-                  {prevGuess.feedback.numberMatch}
-                </div>
+                <div className="info-item">{prevGuess.feedback.numberMatch}</div>
               </div>
             ))}
           </div>
@@ -301,7 +255,6 @@ function App() {
 }
 
 export default App;
-
 
 
 
